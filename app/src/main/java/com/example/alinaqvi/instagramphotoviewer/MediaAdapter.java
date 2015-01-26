@@ -37,11 +37,14 @@ public class MediaAdapter extends ArrayAdapter<MediaRecord> {
         TextView tvUsername = (TextView) convertView.findViewById(R.id.tvUsername);
         TextView tvLikes = (TextView) convertView.findViewById(R.id.tvLikes);
         ImageView ivUrl = (ImageView) convertView.findViewById(R.id.ivUrl);
+        ivUrl.getLayoutParams().height=ivUrl.getLayoutParams().width;
         ImageView ivUser = (ImageView) convertView.findViewById(R.id.ivUser);
 
         Picasso.with(convertView.getContext()).load(mediaRecord.getUrl()).into(ivUrl);
-        Picasso.with(convertView.getContext()).load(mediaRecord.getUserImageUrl()).transform(new CircleTransform()).into(ivUser);
-        tvCaption.setText(mediaRecord.getCaption().length() > 150 ? mediaRecord.getCaption().substring(0, 150) + "..." : mediaRecord.getCaption());
+        if(mediaRecord.getUserImageUrl() != null && !mediaRecord.getUserImageUrl().isEmpty()) {
+            Picasso.with(convertView.getContext()).load(mediaRecord.getUserImageUrl()).transform(new CircleTransform()).into(ivUser);
+        }
+        tvCaption.setText(mediaRecord.getCaption().length() > 300 ? mediaRecord.getCaption().substring(0, 300) + "..." : mediaRecord.getCaption());
         tvUsername.setText(mediaRecord.getUsername());
         tvLikes.setText("" + mediaRecord.getLikeCount());
         return convertView;
